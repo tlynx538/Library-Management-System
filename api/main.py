@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-#from db.db import PriceWatchDB
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime 
@@ -20,17 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# db = PriceWatchDB()
 db = BiblioSphereDB()
-# class Bearings(BaseModel):
-#     size: str
-#     vendor_name: str
-#     rate: float 
-#     bill_rate: float 
-
-# class GetBearings(BaseModel):
-#     size: str
-#     vendor_id: int
 
 class Authors(BaseModel):
     author_id : int 
@@ -44,15 +33,22 @@ def home():
 def biblio():
     return db.listOfBiblio()
 
+@app.get('/list/authors')
+def authors():
+    return db.listAuthors()
+
 @app.get('/list/author/biblio/{author_id}')
 def author_biblio(author_id):
-    return db.listBooksByAuthor(author_id)
+    return db.listBiblioByAuthor(author_id)
 
 @app.get('/list/biblio/borrowers/{borrower_id}')
 def borrower_biblio(borrower_id):
     return db.listBorrowerWithBiblioItems(borrower_id)
 
-
 @app.get('/list/biblio/borrowers/reserves/{borrower_id}')
 def borrower_biblio(borrower_id):
     return db.listBorrowersReserved(borrower_id)
+
+@app.get('/history/borrowers/{borrower_id}')
+def borrower_history(borrower_id):
+    return db.getBorrowersHistory(borrower_id)
