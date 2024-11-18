@@ -1,4 +1,4 @@
 api/db/__pycache__
 api/__pycache__
 api/api/
-api/.env
+api/db/.env
