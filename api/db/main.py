@@ -122,13 +122,14 @@ class BiblioSphereDB:
             rating = self.getRatings()
             biblio_items = self.getBiblioItems()
             items = self.getItems()
+            loan_status = self.getLoanStatus()
 
             query = db.Select(
                 borrowers.c.name,
                 borrowers.c.phone,
                 loans.c.loaned_on,
                 loans.c.returned_on,
-                loans.c.status,
+                loan_status.c.loan_status,
                 biblio.c.biblio_name,
                 biblio.c.biblio_desc,
                 authors.c.author_name,
@@ -144,7 +145,8 @@ class BiblioSphereDB:
             ).filter(item_types.c.itemtype_id == biblio_items.c.itemtype_id 
             ).filter(biblio.c.publisher_id == publisher.c.publisher_id
             ).filter(rating.c.biblio_id == biblio.c.biblio_id
-            ).where((loans.c.borrower_id == borrower_id) & (loans.c.status == 1)).select_from(borrowers)
+            ).filter(loans.c.loan_status_id == loan_status.c.loan_status_id
+            ).where((loans.c.borrower_id == borrower_id) & (loan_status.c.loan_status_id == 0)).select_from(borrowers)
             
             result = self.connection.execute(query)
 
@@ -175,7 +177,6 @@ class BiblioSphereDB:
                 borrowers.c.name,
                 borrowers.c.phone,
                 reserves.c.date_reserved,
-                reserves.c.status,
                 reserves.c.expiration_date,
                 biblio.c.biblio_name,
                 biblio.c.biblio_desc,
@@ -218,13 +219,14 @@ class BiblioSphereDB:
             rating = self.getRatings()
             biblio_items = self.getBiblioItems()
             items = self.getItems()
+            loan_status = self.getLoanStatus()
 
             query = db.Select(
                 borrowers.c.name,
                 borrowers.c.phone,
                 loans.c.loaned_on,
                 loans.c.returned_on,
-                loans.c.status,
+                loan_status.c.loan_status,
                 biblio.c.biblio_name,
                 biblio.c.biblio_desc,
                 authors.c.author_name,
@@ -240,6 +242,7 @@ class BiblioSphereDB:
             ).filter(item_types.c.itemtype_id == biblio_items.c.itemtype_id 
             ).filter(biblio.c.publisher_id == publisher.c.publisher_id
             ).filter(rating.c.biblio_id == biblio.c.biblio_id
+            ).filter(loans.c.loan_status_id == loan_status.c.loan_status_id
             ).where(loans.c.borrower_id == borrower_id).select_from(borrowers)
             
             result = self.connection.execute(query)
@@ -297,5 +300,9 @@ class BiblioSphereDB:
     def getReserves(self):
         reserves = db.Table('Reserves',self.metadata,autoload_with=self.engine)
         return reserves
+    
+    def getLoanStatus(self):
+        loanStatus = db.Table('LoanStatus', self.metadata,autoload_replace=self.engine)
+        return loanStatus  
 
 

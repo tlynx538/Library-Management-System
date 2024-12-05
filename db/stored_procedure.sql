@@ -1,4 +1,7 @@
--- This procedure extends the loan for a specified item and borrower, provided the loan exists and has not been returned.
+USE `spheredb`;
+
+
+DROP PROCEDURE extend_loan;
 
 DELIMITER $$
 
@@ -38,7 +41,11 @@ END$$
 
 DELIMITER ;
 
+Call extend_loan (1,2,'2024-03-12');
+
 -- This stored procedure checks if an item needs to be loaned or put on hold
+
+DROP PROCEDURE create_loan_or_hold;
 
 DELIMITER $$
 
@@ -75,6 +82,7 @@ END$$
 
 DELIMITER ;
 
+CALL create_loan_or_hold(4,4,'2024-01-15','2024-03-12');
 
 -- This procedure calculates fine if borrower has not returned book or any other bibliographic item on time
 

@@ -1,3 +1,4 @@
+use spheredb;
 -- #1 list novels and fantasies
 SELECT 
     b.biblio_name, 
@@ -13,7 +14,7 @@ WHERE
     it.itemtype_name = 'Novel' 
     AND ig.genre_name = 'Fantasy';
 
--- # 2 list author names and number of works by them in novel and fantasy
+-- # 2 list author names and number of works by them in fantasy or young adult
 SELECT  
     author.author_name AS Author, 
     COUNT(Biblio.biblio_id) AS NumberOfFantasyNovels, 
@@ -23,17 +24,17 @@ FROM
     author 
 
 INNER JOIN  
-    Biblio ON author.author_id = Biblio.author_id 
-
+    Biblio ON author.author_id = Biblio.author_id
+INNER JOIN 
+    ItemGenre ON  Biblio.genre_id = ItemGenre.genre_id
 WHERE  
-    Biblio.itemtype = 'Novel' AND Biblio.genre = 'Fantasy' 
+    ItemGenre.genre_name = 'Fantasy' OR ItemGenre.genre_name = 'Young Adult'
 
 GROUP BY  
     author.author_id 
 
 ORDER BY  
     NumberOfFantasyNovels DESC; 
-
 
 
 -- #3 List items borrowed by a borrower
@@ -60,13 +61,13 @@ ORDER BY
 SELECT 
     b.biblio_name, 
     b.biblio_desc, 
-    a.name AS author_name
+    a.author_name AS author_name
 FROM 
     Biblio b
 JOIN 
     Author a ON b.author_id = a.author_id
 WHERE 
-    a.name LIKE 'A%'  -- Filters authors whose name starts with "A"
+    a.author_name LIKE 'A%'  -- Filters authors whose name starts with "A"
 ORDER BY 
     b.biblio_name;  -- Optional: Orders by book name
 
@@ -104,7 +105,7 @@ JOIN
     Ratings ON biblio.biblio_id = Ratings.biblio_id; 
 
 
--- #6 List Biblio by Borrower ID
+-- #6 List Biblio by Author Name (Full or Partial)
 
 SELECT  
     biblio.biblio_name, 
@@ -138,16 +139,16 @@ JOIN
     Ratings ON biblio.biblio_id = Ratings.biblio_id 
 
 WHERE  
-    author.author_id = 104; 
+    author.author_name LIKE 'A_%'; 
 
--- #7 List Items Loaned by Borrowers 
+-- #7 List Items Loaned by Borrowers ID
 
 SELECT  
     borrowers.name, 
     borrowers.phone, 
     loan.loaned_on, 
     loan.returned_on, 
-    loan.status, 
+    loanstatus.loan_status, 
     biblio.biblio_name, 
     biblio.biblio_desc, 
     author.author_name, 
@@ -160,6 +161,9 @@ FROM
 
 JOIN  
     loan ON borrowers.borrower_id = loan.borrower_id 
+
+JOIN 
+	loanstatus ON loanstatus.loan_status_id = loan.loan_status_id
 
 JOIN  
     items ON loan.item_id = items.item_id 
@@ -195,7 +199,6 @@ SELECT
     borrowers.name, 
     borrowers.phone, 
     reserves.date_reserved, 
-    reserves.status, 
     reserves.expiration_date, 
     biblio.biblio_name, 
     biblio.biblio_desc, 
@@ -261,7 +264,7 @@ SELECT
     f.fine_date,
     i.barcode AS item_barcode,
     i.item_location,
-    bi.biblio_name
+    bib.biblio_name
 FROM 
     Fines f
 JOIN 
@@ -270,8 +273,9 @@ JOIN
     Items i ON f.item_id = i.item_id
 JOIN 
     BiblioItems bi ON i.biblioitems_id = bi.biblioitems_id
+JOIN
+    Biblio bib ON bib.biblio_id = bi.biblio_id
 WHERE 
-    b.borrower_id = 7  
+    b.borrower_id = 1  
 ORDER BY 
     f.fine_date DESC;
-

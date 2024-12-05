@@ -137,9 +137,12 @@ CREATE TABLE `BookingRooms` (
   `BookingDate` datetime NOT NULL,
   `StartTime` time NOT NULL,
   `EndTime` time NOT NULL,
+  `StaffID` int DEFAULT NULL,
   PRIMARY KEY (`BookingID`),
   KEY `BookedBy` (`BookedBy`),
-  CONSTRAINT `bookingrooms_ibfk_1` FOREIGN KEY (`BookedBy`) REFERENCES `Borrowers` (`borrower_id`) ON DELETE CASCADE
+  KEY `BookingRooms_Staff_FK` (`StaffID`),
+  CONSTRAINT `bookingrooms_ibfk_1` FOREIGN KEY (`BookedBy`) REFERENCES `Borrowers` (`borrower_id`) ON DELETE CASCADE,
+  CONSTRAINT `BookingRooms_Staff_FK` FOREIGN KEY (`StaffID`) REFERENCES `Staff` (`StaffID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -149,7 +152,7 @@ CREATE TABLE `BookingRooms` (
 
 LOCK TABLES `BookingRooms` WRITE;
 /*!40000 ALTER TABLE `BookingRooms` DISABLE KEYS */;
-INSERT INTO `BookingRooms` VALUES (1,'Study Room',1,'2024-11-01 00:00:00','09:00:00','11:00:00'),(2,'Conference Room',2,'2024-11-02 00:00:00','10:00:00','12:00:00'),(3,'Study Room',3,'2024-11-03 00:00:00','11:00:00','13:00:00'),(4,'Conference Room',4,'2024-11-04 00:00:00','12:00:00','14:00:00'),(5,'Study Room',5,'2024-11-05 00:00:00','13:00:00','15:00:00'),(6,'Conference Room',6,'2024-11-06 00:00:00','14:00:00','16:00:00'),(7,'Study Room',7,'2024-11-07 00:00:00','15:00:00','17:00:00'),(8,'Conference Room',8,'2024-11-08 00:00:00','16:00:00','18:00:00'),(9,'Study Room',9,'2024-11-09 00:00:00','17:00:00','19:00:00'),(10,'Conference Room',10,'2024-11-10 00:00:00','18:00:00','20:00:00'),(11,'Study Room',11,'2024-11-11 00:00:00','19:00:00','21:00:00'),(12,'Conference Room',12,'2024-11-12 00:00:00','20:00:00','22:00:00'),(13,'Study Room',13,'2024-11-13 00:00:00','09:30:00','11:30:00'),(14,'Conference Room',14,'2024-11-14 00:00:00','10:30:00','12:30:00'),(15,'Study Room',15,'2024-11-15 00:00:00','11:30:00','13:30:00'),(16,'Conference Room',16,'2024-11-16 00:00:00','12:30:00','14:30:00'),(17,'Study Room',17,'2024-11-17 00:00:00','13:30:00','15:30:00'),(18,'Conference Room',18,'2024-11-18 00:00:00','14:30:00','16:30:00'),(19,'Study Room',19,'2024-11-19 00:00:00','15:30:00','17:30:00'),(20,'Conference Room',20,'2024-11-20 00:00:00','16:30:00','18:30:00');
+INSERT INTO `BookingRooms` VALUES (1,'Study Room',1,'2024-11-01 00:00:00','09:00:00','11:00:00',NULL),(2,'Conference Room',2,'2024-11-02 00:00:00','10:00:00','12:00:00',NULL),(3,'Study Room',3,'2024-11-03 00:00:00','11:00:00','13:00:00',NULL),(4,'Conference Room',4,'2024-11-04 00:00:00','12:00:00','14:00:00',NULL),(5,'Study Room',5,'2024-11-05 00:00:00','13:00:00','15:00:00',NULL),(6,'Conference Room',6,'2024-11-06 00:00:00','14:00:00','16:00:00',NULL),(7,'Study Room',7,'2024-11-07 00:00:00','15:00:00','17:00:00',NULL),(8,'Conference Room',8,'2024-11-08 00:00:00','16:00:00','18:00:00',NULL),(9,'Study Room',9,'2024-11-09 00:00:00','17:00:00','19:00:00',NULL),(10,'Conference Room',10,'2024-11-10 00:00:00','18:00:00','20:00:00',NULL),(11,'Study Room',11,'2024-11-11 00:00:00','19:00:00','21:00:00',NULL),(12,'Conference Room',12,'2024-11-12 00:00:00','20:00:00','22:00:00',NULL),(13,'Study Room',13,'2024-11-13 00:00:00','09:30:00','11:30:00',NULL),(14,'Conference Room',14,'2024-11-14 00:00:00','10:30:00','12:30:00',NULL),(15,'Study Room',15,'2024-11-15 00:00:00','11:30:00','13:30:00',NULL),(16,'Conference Room',16,'2024-11-16 00:00:00','12:30:00','14:30:00',NULL),(17,'Study Room',17,'2024-11-17 00:00:00','13:30:00','15:30:00',NULL),(18,'Conference Room',18,'2024-11-18 00:00:00','14:30:00','16:30:00',NULL),(19,'Study Room',19,'2024-11-19 00:00:00','15:30:00','17:30:00',NULL),(20,'Conference Room',20,'2024-11-20 00:00:00','16:30:00','18:30:00',NULL);
 /*!40000 ALTER TABLE `BookingRooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,9 +362,12 @@ CREATE TABLE `Items` (
   `biblioitems_id` int NOT NULL,
   `barcode` varchar(100) DEFAULT NULL,
   `item_location` varchar(25) DEFAULT NULL,
+  `condition_id` int DEFAULT NULL,
   PRIMARY KEY (`item_id`),
   KEY `Items_BiblioItems_FK` (`biblioitems_id`),
-  CONSTRAINT `Items_BiblioItems_FK` FOREIGN KEY (`biblioitems_id`) REFERENCES `BiblioItems` (`biblioitems_id`)
+  KEY `Items_ConditionStatus_FK` (`condition_id`),
+  CONSTRAINT `Items_BiblioItems_FK` FOREIGN KEY (`biblioitems_id`) REFERENCES `BiblioItems` (`biblioitems_id`),
+  CONSTRAINT `Items_ConditionStatus_FK` FOREIGN KEY (`condition_id`) REFERENCES `ConditionStatus` (`ConditionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -371,7 +377,7 @@ CREATE TABLE `Items` (
 
 LOCK TABLES `Items` WRITE;
 /*!40000 ALTER TABLE `Items` DISABLE KEYS */;
-INSERT INTO `Items` VALUES (1,1,'1234567890123','Aisle 1, Shelf 1'),(2,1,'1234567890124','Aisle 1, Shelf 2'),(3,2,'1234567890125','Aisle 2, Shelf 1'),(4,2,'1234567890126','Aisle 2, Shelf 2'),(5,1,'1234567890127','Aisle 3, Shelf 1'),(6,1,'1234567890128','Aisle 3, Shelf 2'),(7,3,'1234567890129','Aisle 4, Shelf 1'),(8,3,'1234567890130','Aisle 4, Shelf 2'),(9,4,'1234567890131','Aisle 5, Shelf 1'),(10,4,'1234567890132','Aisle 5, Shelf 2'),(11,1,'1234567890133','Aisle 6, Shelf 1'),(12,2,'1234567890134','Aisle 6, Shelf 2'),(13,3,'1234567890135','Aisle 7, Shelf 1'),(14,4,'1234567890136','Aisle 7, Shelf 2'),(15,1,'1234567890137','Aisle 8, Shelf 1'),(16,2,'1234567890138','Aisle 8, Shelf 2'),(17,3,'1234567890139','Aisle 9, Shelf 1'),(18,4,'1234567890140','Aisle 9, Shelf 2'),(19,1,'1234567890141','Aisle 10, Shelf 1'),(20,2,'1234567890142','Aisle 10, Shelf 2');
+INSERT INTO `Items` VALUES (1,1,'1234567890123','Aisle 1, Shelf 1',NULL),(2,1,'1234567890124','Aisle 1, Shelf 2',NULL),(3,2,'1234567890125','Aisle 2, Shelf 1',NULL),(4,2,'1234567890126','Aisle 2, Shelf 2',NULL),(5,1,'1234567890127','Aisle 3, Shelf 1',NULL),(6,1,'1234567890128','Aisle 3, Shelf 2',NULL),(7,3,'1234567890129','Aisle 4, Shelf 1',NULL),(8,3,'1234567890130','Aisle 4, Shelf 2',NULL),(9,4,'1234567890131','Aisle 5, Shelf 1',NULL),(10,4,'1234567890132','Aisle 5, Shelf 2',NULL),(11,1,'1234567890133','Aisle 6, Shelf 1',NULL),(12,2,'1234567890134','Aisle 6, Shelf 2',NULL),(13,3,'1234567890135','Aisle 7, Shelf 1',NULL),(14,4,'1234567890136','Aisle 7, Shelf 2',NULL),(15,1,'1234567890137','Aisle 8, Shelf 1',NULL),(16,2,'1234567890138','Aisle 8, Shelf 2',NULL),(17,3,'1234567890139','Aisle 9, Shelf 1',NULL),(18,4,'1234567890140','Aisle 9, Shelf 2',NULL),(19,1,'1234567890141','Aisle 10, Shelf 1',NULL),(20,2,'1234567890142','Aisle 10, Shelf 2',NULL);
 /*!40000 ALTER TABLE `Items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1077,283 +1083,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-18  6:37:06
-
-
--- begin complex queries --
--- #1 list novels and fantasies
-SELECT 
-    b.biblio_name, 
-    b.biblio_desc, 
-    ig.genre_name AS genre
-FROM 
-    Biblio b
-JOIN 
-    ItemGenre ig ON b.genre_id = ig.genre_id
-JOIN 
-    ItemType it ON b.itemtype_id = it.itemtype_id
-WHERE 
-    it.itemtype_name = 'Novel' 
-    AND ig.genre_name = 'Fantasy';
-
--- # 2 list author names and number of works by them in novel and fantasy
-SELECT  
-    author.author_name AS Author, 
-    COUNT(Biblio.biblio_id) AS NumberOfFantasyNovels, 
-    GROUP_CONCAT(Biblio.biblio_name ORDER BY Biblio.biblio_name SEPARATOR ', ') AS FantasyNovelTitles 
-
-FROM  
-    author 
-
-INNER JOIN  
-    Biblio ON author.author_id = Biblio.author_id 
-
-WHERE  
-    Biblio.itemtype = 'Novel' AND Biblio.genre = 'Fantasy' 
-
-GROUP BY  
-    author.author_id 
-
-ORDER BY  
-    NumberOfFantasyNovels DESC; 
-
-
-
--- #3 List items borrowed by a borrower
-SELECT  
-    br.name AS borrower_name, 
-    COUNT(l.item_id) AS total_items_borrowed, 
-    MAX(l.loaned_on) AS last_loan_date 
-
-FROM 
-    spheredb.Borrowers br 
-    JOIN spheredb.Loan l ON br.borrower_id = l.borrower_id 
-    JOIN spheredb.Items i ON l.item_id = i.item_id 
-
-GROUP BY  
-    br.borrower_id 
-
-HAVING  
-    total_items_borrowed > 0 
-
-ORDER BY  
-    total_items_borrowed DESC; 
-
--- # 4 list biblio written by author whose name starts with A
-SELECT 
-    b.biblio_name, 
-    b.biblio_desc, 
-    a.name AS author_name
-FROM 
-    Biblio b
-JOIN 
-    Author a ON b.author_id = a.author_id
-WHERE 
-    a.name LIKE 'A%'  -- Filters authors whose name starts with "A"
-ORDER BY 
-    b.biblio_name;  -- Optional: Orders by book name
-
-
--- #5 List biblio
-SELECT  
-    biblio.biblio_name, 
-    biblio.biblio_desc, 
-    author.author_name, 
-    ItemGenre.genre_name, 
-    PublisherDetails.publisher_name, 
-    Ratings.rating, 
-    BiblioItems.published_date, 
-    ItemType.itemtype_name 
-
-FROM  
-    biblio 
-
-JOIN  
-    author ON biblio.author_id = author.author_id 
-
-JOIN  
-    ItemType ON biblio.itemtype_id = ItemType.itemtype_id 
-
-JOIN  
-    ItemGenre ON biblio.genre_id = ItemGenre.genre_id 
-
-JOIN  
-    PublisherDetails ON biblio.publisher_id = PublisherDetails.publisher_id 
-
-JOIN  
-    BiblioItems ON biblio.biblio_id = BiblioItems.biblio_id 
-
-JOIN  
-    Ratings ON biblio.biblio_id = Ratings.biblio_id; 
-
-
--- #6 List Biblio by Borrower ID
-
-SELECT  
-    biblio.biblio_name, 
-    biblio.biblio_desc, 
-    author.author_name, 
-    ItemGenre.genre_name, 
-    PublisherDetails.publisher_name, 
-    Ratings.rating, 
-    BiblioItems.published_date, 
-    ItemType.itemtype_name 
-
-FROM  
-    biblio 
-
-JOIN  
-    author ON biblio.author_id = author.author_id 
-
-JOIN  
-    ItemType ON biblio.itemtype_id = ItemType.itemtype_id 
-
-JOIN  
-    ItemGenre ON biblio.genre_id = ItemGenre.genre_id 
-
-JOIN  
-    PublisherDetails ON biblio.publisher_id = PublisherDetails.publisher_id 
-
-JOIN  
-    BiblioItems ON biblio.biblio_id = BiblioItems.biblio_id 
-
-JOIN  
-    Ratings ON biblio.biblio_id = Ratings.biblio_id 
-
-WHERE  
-    author.author_id = 104; 
-
--- #7 List Items Loaned by Borrowers 
-
-SELECT  
-    borrowers.name, 
-    borrowers.phone, 
-    loan.loaned_on, 
-    loan.returned_on, 
-    loan.status, 
-    biblio.biblio_name, 
-    biblio.biblio_desc, 
-    author.author_name, 
-    BiblioItems.isbn, 
-    PublisherDetails.publisher_name, 
-    ratings.rating 
-
-FROM  
-    borrowers 
-
-JOIN  
-    loan ON borrowers.borrower_id = loan.borrower_id 
-
-JOIN  
-    items ON loan.item_id = items.item_id 
-
-JOIN  
-    BiblioItems ON items.biblioitems_id = BiblioItems.biblioitems_id 
-
-JOIN  
-    biblio ON BiblioItems.biblio_id = biblio.biblio_id 
-
-JOIN  
-    author ON biblio.author_id = author.author_id 
-
-JOIN  
-    ItemGenre ON biblio.genre_id = ItemGenre.genre_id 
-
-JOIN  
-    ItemType ON BiblioItems.itemtype_id = ItemType.itemtype_id 
-
-JOIN  
-    PublisherDetails ON biblio.publisher_id = PublisherDetails.publisher_id 
-
-JOIN  
-    ratings ON biblio.biblio_id = ratings.biblio_id 
-
-WHERE  
-    loan.borrower_id = 1; 
-
-
--- #8 List Items Reserved by Borrowers 
-
-SELECT  
-    borrowers.name, 
-    borrowers.phone, 
-    reserves.date_reserved, 
-    reserves.status, 
-    reserves.expiration_date, 
-    biblio.biblio_name, 
-    biblio.biblio_desc, 
-    author.author_name, 
-    BiblioItems.isbn, 
-    PublisherDetails.publisher_name, 
-    ratings.rating 
-
-FROM  
-    borrowers 
-
-JOIN  
-    reserves ON borrowers.borrower_id = reserves.borrower_id 
-
-JOIN  
-    items ON reserves.item_id = items.item_id 
-
-JOIN  
-    BiblioItems ON items.biblioitems_id = BiblioItems.biblioitems_id 
-
-JOIN  
-    biblio ON BiblioItems.biblio_id = biblio.biblio_id 
-
-JOIN  
-    author ON biblio.author_id = author.author_id 
-
-JOIN  
-    ItemGenre ON biblio.genre_id = ItemGenre.genre_id 
-
-JOIN  
-    ItemType ON BiblioItems.itemtype_id = ItemType.itemtype_id 
-
-JOIN  
-    PublisherDetails ON biblio.publisher_id = PublisherDetails.publisher_id 
-
-JOIN  
-    ratings ON biblio.biblio_id = ratings.biblio_id 
-
-WHERE  
-    reserves.borrower_id = 1; 
-
--- #9 Show notifications by borrower id 
-
-SELECT 
-    b.name AS borrower_name,
-    n.NotificationText,
-    n.NotificationDate,
-    n.IsRead
-FROM 
-    Notifications n
-JOIN 
-    Borrowers b ON n.UserID = b.borrower_id
-WHERE 
-    b.borrower_id = 1  
-    AND n.IsRead = 0  
-ORDER BY 
-    n.NotificationDate DESC;
-
--- #10 Display Fine by borrower id 
-SELECT 
-    b.name AS borrower_name,
-    f.fine_amount,
-    f.fine_date,
-    i.barcode AS item_barcode,
-    i.item_location,
-    bi.biblio_name
-FROM 
-    Fines f
-JOIN 
-    Borrowers b ON f.borrower_id = b.borrower_id
-JOIN 
-    Items i ON f.item_id = i.item_id
-JOIN 
-    BiblioItems bi ON i.biblioitems_id = bi.biblioitems_id
-WHERE 
-    b.borrower_id = 7  
-ORDER BY 
-    f.fine_date DESC;
+-- Dump completed on 2024-11-26 15:25:21
