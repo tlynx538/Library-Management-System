@@ -117,32 +117,52 @@ export default function Home() {
                       <Card className="mb-1">
                         <CardHeader>
                           <CardTitle>Book 1</CardTitle>
+                          <Label>Lorem Ipsum</Label>
                           <CardDescription>Description of Book 1</CardDescription>
                         </CardHeader>
+                        <CardFooter>
+                          <Button>View Details</Button>
+                        </CardFooter>
                       </Card>
                       <Card className="mb-1">
                         <CardHeader>
                           <CardTitle>Book 2</CardTitle>
+                          <Label>Lorem Ipsum</Label>
                           <CardDescription>Description of Book 2</CardDescription>
                         </CardHeader>
+                        <CardFooter>
+                          <Button>View Details</Button>
+                        </CardFooter>
                       </Card>
                       <Card className="mb-1">
                         <CardHeader>
-                          <CardTitle>Book 1</CardTitle>
+                          <CardTitle>Book 3</CardTitle>
+                          <Label>Lorem Ipsum</Label>
                           <CardDescription>Description of Book 3</CardDescription>
                         </CardHeader>
+                        <CardFooter>
+                          <Button>View Details</Button>
+                        </CardFooter>
                       </Card>
                       <Card className="mb-1">
                         <CardHeader>
-                          <CardTitle>Book 1</CardTitle>
+                          <CardTitle>Book 4</CardTitle>
+                          <Label>Lorem Ipsum</Label>
                           <CardDescription>Description of Book 4</CardDescription>
                         </CardHeader>
+                        <CardFooter>
+                          <Button>View Details</Button>
+                        </CardFooter>
                       </Card>
                       <Card className="mb-1">
                         <CardHeader>
-                          <CardTitle>Book 1</CardTitle>
+                          <CardTitle>Book 5</CardTitle>
+                          <Label>Lorem Ipsum</Label>
                           <CardDescription>Description of Book 5</CardDescription>
                         </CardHeader>
+                        <CardFooter>
+                          <Button>View Details</Button>
+                        </CardFooter>
                       </Card>
                     </Col>
                   </Container>
