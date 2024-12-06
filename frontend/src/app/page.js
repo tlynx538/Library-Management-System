@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import {Row, Col} from 'react-bootstrap'
+import {Row, Col} from 'react-bootstrap';
+import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -8,10 +9,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {Label} from '@/components/ui/label';
+import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Select,
@@ -19,24 +21,32 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 export default function Home() {
   return (
-      <div>
+      <div className='mx-auto'>
         <Navbar expand="lg" className="bg-body-tertiary mb-2">
           <Container>
             <Navbar>BiblioSphere</Navbar>
           </Container>
+          <ButtonGroup aria-label="Basic example" className='mr-3'>
+          <Button className='mr-1 bg-info'>Cart</Button>
+          <Button className="mr-1 bg-warning" asChild>
+            <Link href="/login" style={{ textDecoration: 'none' }}>Login</Link>
+          </Button>
+        </ButtonGroup>
         </Navbar>
         <Container>
           <Card>
             <CardHeader className='items-center'>
               <CardTitle>Search the Library</CardTitle>
               <CardDescription>Literally for Anything!</CardDescription>
-              <Row md="auto" className="p-2">
+              <Row md="auto" className="p-2" align="center">
                 <Col>
-                  <Input style={{ width: '500px'}}></Input>
+                  <Input style={{ width: '500px'}} placeholder="Find books, articles, library services and more."></Input>
                 </Col>
                 <Col sm>
                   <Button>Search</Button>
@@ -99,8 +109,8 @@ export default function Home() {
                     <Label htmlFor="option-two">Under Reservation</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="option-two" id="option-two" />
-                    <Label htmlFor="option-two">Upcoming</Label>
+                    <RadioGroupItem value="option-three" id="option-three" />
+                    <Label htmlFor="option-three">Upcoming</Label>
                   </div>
                 </RadioGroup>
                 </CardHeader>
